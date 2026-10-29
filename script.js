@@ -45,6 +45,23 @@
   const autoSpinBtn = document.getElementById('autoSpinBtn');
   const angleBtns = document.querySelectorAll('.spect-angle-btn');
   const ctrlBtns = document.querySelectorAll('.ctrl-btn');
+  const mobile3dHint = document.getElementById('mobile3dHint');
+
+  function dismissMobile3DHint() {
+    if (mobile3dHint && mobile3dHint.style.display !== 'none') {
+      mobile3dHint.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+      mobile3dHint.style.opacity = '0';
+      mobile3dHint.style.transform = 'translateX(-50%) translateY(-10px)';
+      setTimeout(() => {
+        if (mobile3dHint) mobile3dHint.style.display = 'none';
+      }, 400);
+    }
+  }
+
+  if (spectCanvas) {
+    spectCanvas.addEventListener('pointerdown', dismissMobile3DHint, { passive: true });
+    spectCanvas.addEventListener('touchstart', dismissMobile3DHint, { passive: true });
+  }
 
   let spect3D = {
     renderer: null,
@@ -126,6 +143,7 @@
 
       // Pause auto-rotation while user is actively dragging
       spect3D.controls.addEventListener('start', () => {
+        dismissMobile3DHint();
         spect3D.isAutoSpin = false;
         if (autoSpinResumeTimer) clearTimeout(autoSpinResumeTimer);
       });
@@ -154,7 +172,7 @@
       });
     }
 
-    // Studio Triple Softbox Lighting
+    // Studio Triple Softbox Lighting + Cobalt Deep Studio Accent
     const ambient = new THREE.AmbientLight(0xffffff, 0.85);
     spect3D.scene.add(ambient);
 
@@ -170,14 +188,19 @@
     rimLight.position.set(0, 9, -5);
     spect3D.scene.add(rimLight);
 
+    // Subtle Cobalt Blue Deep (#2C3480) studio rim accent
+    const cobaltAccent = new THREE.PointLight(0x2C3480, 2.5, 14);
+    cobaltAccent.position.set(0, -2, 3);
+    spect3D.scene.add(cobaltAccent);
+
     // High-End Materials
     const acetateMat = new THREE.MeshPhysicalMaterial({
-      color: 0x121212,
-      roughness: 0.1,
-      metalness: 0.05,
+      color: 0x090e24, // Midnight Cobalt Obsidian frame
+      roughness: 0.08,
+      metalness: 0.1,
       clearcoat: 1.0,
-      clearcoatRoughness: 0.06,
-      reflectivity: 0.95
+      clearcoatRoughness: 0.05,
+      reflectivity: 0.96
     });
 
     const chromeMat = new THREE.MeshStandardMaterial({
@@ -206,16 +229,16 @@
     });
 
     spect3D.materials.bluecut = new THREE.MeshPhysicalMaterial({
-      color: 0x38bdf8,
+      color: 0x4150d8, // Radiant cobalt bluecut coating
       transparent: true,
-      opacity: 0.45,
+      opacity: 0.48,
       roughness: 0.02,
       transmission: 0.86,
       ior: 1.54,
       clearcoat: 1.0,
       clearcoatRoughness: 0.02,
-      attenuationColor: new THREE.Color(0x38bdf8),
-      attenuationDistance: 1.5
+      attenuationColor: new THREE.Color(0x2C3480), // Deep cobalt attenuation (#2C3480)
+      attenuationDistance: 1.4
     });
 
     spect3D.materials.antiglare = new THREE.MeshPhysicalMaterial({
@@ -438,6 +461,7 @@
   }
 
   window.setSpectacleAngle = function(deg) {
+    dismissMobile3DHint();
     if (!spect3D.glassesGroup) return;
     spect3D.isAutoSpin = false;
     spect3D.glassesGroup.rotation.y = deg * Math.PI / 180;
