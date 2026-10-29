@@ -926,7 +926,7 @@
     let currentIdx = 0;
     let flipTimer = null;
 
-    // Word flip animation loop - slowed down to relaxed, readable pace (2.5s per sentence)
+        // Word flip animation loop - slowed down to 3.5s per sentence
     flipTimer = setInterval(() => {
       flipWordEl.classList.remove('active');
       flipWordEl.classList.add('flipping-out');
@@ -942,8 +942,8 @@
 
         flipWordEl.classList.remove('flipping-in');
         flipWordEl.classList.add('active');
-      }, 650); // 650ms slow transition
-    }, 2500); // 2.5s per sentence
+      }, 850); // 850ms slow, elegant 3D flip transition
+    }, 3500); // 3.5s per sentence for relaxed, effortless reading
 
     function dismissWelcomeScreen() {
       if (flipTimer) clearInterval(flipTimer);
@@ -951,13 +951,13 @@
       setTimeout(() => {
         welcomeScreen.style.display = 'none';
         welcomeScreen.setAttribute('aria-hidden', 'true');
-      }, 850);
+      }, 900);
     }
 
-    // Auto-dismiss after 7.5 seconds allowing visitors to comfortably read changing sentences
+    // Auto-dismiss after 10.5 seconds allowing visitors to read all sentences comfortably
     const autoDismissTimeout = setTimeout(() => {
       dismissWelcomeScreen();
-    }, 7500);
+    }, 10500);
 
     if (skipBtn) {
       skipBtn.addEventListener('click', (e) => {
