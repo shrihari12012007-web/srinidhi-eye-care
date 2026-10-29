@@ -899,4 +899,242 @@
     }
   });
 
+
+
+  // ==========================================================================
+  // 8. MODERN INTERACTIVE ANIMATIONS ENGINE
+  // (Welcome Text Flip, Blur Fade In Word Reveal, Spring Number Ticker)
+  // ==========================================================================
+
+  // --- A. 5-SECOND WELCOME OVERLAY WITH LAYOUT TEXT FLIP ---
+  function initWelcomeIntroScreen() {
+    const welcomeScreen = document.getElementById('welcomeIntroScreen');
+    const flipWordEl = document.getElementById('flipWordEl');
+    const timerFill = document.getElementById('welcomeTimerFill');
+    const countdownText = document.getElementById('welcomeCountdownText');
+    const skipBtn = document.getElementById('skipIntroBtn');
+
+    if (!welcomeScreen || !flipWordEl) return;
+
+    // Flip words matching user LayoutTextFlip demo
+    const flipWords = [
+      "Srinidhi Eye Care",
+      "Crystal Clear Sight",
+      "German Precision Optics",
+      "Luxury Eyewear Atelier"
+    ];
+    let currentIdx = 0;
+    let flipTimer = null;
+
+    // Word flip animation loop every 1.25s
+    flipTimer = setInterval(() => {
+      flipWordEl.classList.remove('active');
+      flipWordEl.classList.add('flipping-out');
+
+      setTimeout(() => {
+        currentIdx = (currentIdx + 1) % flipWords.length;
+        flipWordEl.textContent = flipWords[currentIdx];
+        flipWordEl.classList.remove('flipping-out');
+        flipWordEl.classList.add('flipping-in');
+
+        // Force reflow for silky smooth 3D flip-in
+        void flipWordEl.offsetWidth;
+
+        flipWordEl.classList.remove('flipping-in');
+        flipWordEl.classList.add('active');
+      }, 350);
+    }, 1250);
+
+    // 5-second countdown timer text
+    let secondsLeft = 5;
+    const countInterval = setInterval(() => {
+      secondsLeft--;
+      if (countdownText) {
+        countdownText.textContent = secondsLeft > 0 ? `Entering Clinic in ${secondsLeft}s...` : 'Entering Clinic Atelier...';
+      }
+      if (secondsLeft <= 0) clearInterval(countInterval);
+    }, 1000);
+
+    function dismissWelcomeScreen() {
+      if (flipTimer) clearInterval(flipTimer);
+      if (countInterval) clearInterval(countInterval);
+      welcomeScreen.classList.add('fade-out');
+      setTimeout(() => {
+        welcomeScreen.style.display = 'none';
+        welcomeScreen.setAttribute('aria-hidden', 'true');
+      }, 750);
+    }
+
+    // Auto-dismiss after exactly 5.0 seconds
+    const autoDismissTimeout = setTimeout(() => {
+      dismissWelcomeScreen();
+    }, 5000);
+
+    if (skipBtn) {
+      skipBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        clearTimeout(autoDismissTimeout);
+        dismissWelcomeScreen();
+      });
+    }
+
+    // Clicking backdrop also allows skipping
+    welcomeScreen.addEventListener('click', (e) => {
+      if (e.target === welcomeScreen) {
+        clearTimeout(autoDismissTimeout);
+        dismissWelcomeScreen();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !welcomeScreen.classList.contains('fade-out')) {
+        clearTimeout(autoDismissTimeout);
+        dismissWelcomeScreen();
+      }
+    });
+  }
+
+  // --- B. TEXT ANIMATION BLUR FADE IN (WORD-BY-WORD VIEWPORT REVEAL) ---
+  function initBlurFadeInAnimation() {
+    const targets = document.querySelectorAll('.blur-fade-text');
+    if (!targets.length) return;
+
+    targets.forEach((el) => {
+      if (el.getAttribute('data-blur-initialized')) return;
+      el.setAttribute('data-blur-initialized', 'true');
+
+      // Preserve existing child nodes and split text nodes word by word
+      let wordCounter = 0;
+      function wrapTextNodes(node) {
+        if (node.nodeType === Node.TEXT_NODE) {
+          const text = node.textContent;
+          if (!text.trim()) return;
+
+          const words = text.split(/(\s+)/);
+          const fragment = document.createDocumentFragment();
+
+          words.forEach((token) => {
+            if (/^\s+$/.test(token)) {
+              fragment.appendChild(document.createTextNode(token));
+            } else if (token.length > 0) {
+              const span = document.createElement('span');
+              span.className = 'blur-word';
+              span.style.setProperty('--word-idx', wordCounter++);
+              span.textContent = token;
+              fragment.appendChild(span);
+            }
+          });
+          node.parentNode.replaceChild(fragment, node);
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+          Array.from(node.childNodes).forEach(wrapTextNodes);
+        }
+      }
+
+      Array.from(el.childNodes).forEach(wrapTextNodes);
+    });
+
+    // Viewport IntersectionObserver
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      targets.forEach((el) => observer.observe(el));
+    } else {
+      // Fallback for older browsers
+      targets.forEach((el) => el.classList.add('is-visible'));
+    }
+  }
+
+  // --- C. STATS WITH NUMBER TICKER (SPRING PHYSICS DYNAMICS) ---
+  function initStatsSpringTicker() {
+    const statElements = document.querySelectorAll('.stat-ticker-value');
+    if (!statElements.length) return;
+
+    function animateSpringNumber(el) {
+      const target = parseFloat(el.getAttribute('data-spring-target') || '0');
+      const decimals = parseInt(el.getAttribute('data-spring-decimals') || '0', 10);
+      const suffix = el.getAttribute('data-spring-suffix') || '';
+      const prefix = el.getAttribute('data-spring-prefix') || '';
+
+      let current = 0;
+      let velocity = 0;
+      const tension = 150;  // Spring stiffness
+      const friction = 20;  // Damper friction
+      let lastTime = performance.now();
+
+      function step(now) {
+        const dt = Math.min((now - lastTime) / 1000, 0.05); // cap delta time to 50ms
+        lastTime = now;
+
+        // Damped harmonic oscillator differential equation
+        const displacement = current - target;
+        const force = -tension * displacement - friction * velocity;
+        const acceleration = force; // unit mass
+
+        velocity += acceleration * dt;
+        current += velocity * dt;
+
+        // Settling threshold check
+        if (Math.abs(displacement) < 0.04 && Math.abs(velocity) < 0.08) {
+          current = target;
+          const finalVal = decimals > 0 ? target.toFixed(decimals) : Math.round(target).toLocaleString('en-IN');
+          el.textContent = prefix + finalVal + suffix;
+          return; // Stop animation loop
+        }
+
+        const displayVal = decimals > 0
+          ? current.toFixed(decimals)
+          : Math.max(0, Math.round(current)).toLocaleString('en-IN');
+
+        el.textContent = prefix + displayVal + suffix;
+        requestAnimationFrame(step);
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    if ('IntersectionObserver' in window) {
+      const statsObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            statElements.forEach(animateSpringNumber);
+            obs.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.2
+      });
+
+      const statsSection = document.getElementById('clinic-stats');
+      if (statsSection) {
+        statsObserver.observe(statsSection);
+      }
+    } else {
+      statElements.forEach(animateSpringNumber);
+    }
+  }
+
+  // Initialize all modern interactive features on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initWelcomeIntroScreen();
+      initBlurFadeInAnimation();
+      initStatsSpringTicker();
+    });
+  } else {
+    initWelcomeIntroScreen();
+    initBlurFadeInAnimation();
+    initStatsSpringTicker();
+  }
+
+
 })();

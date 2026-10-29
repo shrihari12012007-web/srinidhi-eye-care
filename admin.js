@@ -244,11 +244,42 @@
       }
     }
 
-    if (statTotal) statTotal.textContent = stats.total;
-    if (statPending) statPending.textContent = stats.pending;
-    if (statConfirmed) statConfirmed.textContent = stats.confirmed;
-    if (statCompleted) statCompleted.textContent = stats.completed;
-    if (statCancelled) statCancelled.textContent = stats.cancelled;
+    animateAdminStatSpring(statTotal, stats.total);
+    animateAdminStatSpring(statPending, stats.pending);
+    animateAdminStatSpring(statConfirmed, stats.confirmed);
+    animateAdminStatSpring(statCompleted, stats.completed);
+    animateAdminStatSpring(statCancelled, stats.cancelled);
+  }
+
+  function animateAdminStatSpring(el, targetVal) {
+    if (!el) return;
+    const target = parseInt(targetVal, 10) || 0;
+    let current = parseInt(el.textContent, 10) || 0;
+    if (current === target) return;
+
+    let velocity = 0;
+    const tension = 160;
+    const friction = 22;
+    let lastTime = performance.now();
+
+    function step(now) {
+      const dt = Math.min((now - lastTime) / 1000, 0.05);
+      lastTime = now;
+
+      const displacement = current - target;
+      const force = -tension * displacement - friction * velocity;
+      velocity += force * dt;
+      current += velocity * dt;
+
+      if (Math.abs(displacement) < 0.2 && Math.abs(velocity) < 0.4) {
+        el.textContent = target;
+        return;
+      }
+
+      el.textContent = Math.max(0, Math.round(current));
+      requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
   }
 
   function renderAppointments() {

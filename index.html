@@ -22,9 +22,51 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css?v=15.0">
+  <link rel="stylesheet" href="style.css?v=16.0">
 </head>
 <body class="classic-theme">
+
+  <!-- ============================================== -->
+  <!-- 0. 5-SECOND WELCOME OVERLAY WITH LAYOUT TEXT FLIP -->
+  <!-- ============================================== -->
+  <aside class="welcome-intro-screen" id="welcomeIntroScreen" aria-label="Welcome to Srinidhi Eye Care" role="dialog" aria-modal="true">
+    <div class="welcome-intro-glow" aria-hidden="true"></div>
+    <div class="welcome-intro-card">
+      <div class="welcome-brand-badge">
+        <span class="welcome-badge-dot"></span>
+        <span>SRINIDHI EYE CARE &bull; OPTICALS ATELIER</span>
+      </div>
+
+      <!-- LayoutTextFlip Main Animated Unit -->
+      <div class="welcome-flip-container">
+        <span class="welcome-prefix-text">Welcome to</span>
+        <div class="welcome-flip-box" id="welcomeFlipBox">
+          <span class="welcome-flip-word active" id="flipWordEl">Srinidhi Eye Care</span>
+        </div>
+      </div>
+
+      <p class="welcome-subtitle">
+        Experience the power of modern optical precision that brings your vision to life.
+      </p>
+
+      <div class="welcome-footer-controls">
+        <div class="welcome-timer-wrap">
+          <div class="welcome-timer-track">
+            <div class="welcome-timer-fill" id="welcomeTimerFill"></div>
+          </div>
+          <div class="welcome-timer-labels">
+            <span class="welcome-timer-count" id="welcomeCountdownText">Entering Clinic in 5s...</span>
+            <span class="welcome-timer-loc">Peerzad St &bull; Vidya Nagar, Gangavathi</span>
+          </div>
+        </div>
+
+        <button type="button" class="btn-skip-intro" id="skipIntroBtn" aria-label="Skip Welcome Intro">
+          <span>Skip Intro &rarr;</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
 
   <!-- ============================================== -->
   <!-- 1. TOP TICKER (REAL GOOGLE MAPS DETAILS)       -->
@@ -125,7 +167,7 @@
         <div class="hero-content">
           <span class="hero-tag">OPTOMETRY &amp; BESPOKE EYEWEAR ATELIER &bull; GANGAVATHI</span>
           
-          <h1 class="hero-headline">
+          <h1 class="hero-headline blur-fade-text">
             Clarity of Sight.<br>
             <em>Elegance of Form.</em>
           </h1>
@@ -284,6 +326,100 @@
     </section>
 
 
+
+    <!-- ============================================== -->
+    <!-- STATS WITH NUMBER TICKER (SPRING PHYSICS)      -->
+    <!-- Values tick up from zero when entering viewport-->
+    <!-- ============================================== -->
+    <section class="section stats-ticker-section" id="clinic-stats" aria-label="Clinical Statistics and Milestones">
+      <div class="container">
+        <div class="stats-ticker-header text-center">
+          <span class="section-tag">Clinical Excellence &amp; Optical Precision</span>
+          <h2 class="section-title blur-fade-text">Trust Built on Measured Clinical Results</h2>
+          <p class="section-subtitle">
+            Every lens edged and eye examined is verified against strict international optical tolerances.
+          </p>
+        </div>
+
+        <div class="stats-ticker-grid">
+          <!-- Stat 1 -->
+          <div class="stat-ticker-card">
+            <div class="stat-ticker-top">
+              <span class="stat-ticker-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </span>
+              <span class="stat-ticker-pill">Patients Tested</span>
+            </div>
+            <div class="stat-ticker-num-wrap">
+              <span class="stat-ticker-value" data-spring-target="15000" data-spring-suffix="+">0</span>
+            </div>
+            <h3 class="stat-ticker-title">Patients &amp; Eyes Screened</h3>
+            <p class="stat-ticker-desc">Comprehensive computerized auto-refraction and dilated clinical eye examinations in Gangavathi.</p>
+          </div>
+
+          <!-- Stat 2 -->
+          <div class="stat-ticker-card">
+            <div class="stat-ticker-top">
+              <span class="stat-ticker-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+              </span>
+              <span class="stat-ticker-pill">Accuracy Standard</span>
+            </div>
+            <div class="stat-ticker-num-wrap">
+              <span class="stat-ticker-value" data-spring-target="99.8" data-spring-decimals="1" data-spring-suffix="%">0</span>
+            </div>
+            <h3 class="stat-ticker-title">Prescription Accuracy</h3>
+            <p class="stat-ticker-desc">Calibrated to 0.12D diopter tolerance with digital pupil-distance optical verification.</p>
+          </div>
+
+          <!-- Stat 3 -->
+          <div class="stat-ticker-card">
+            <div class="stat-ticker-top">
+              <span class="stat-ticker-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="6" cy="12" r="4"></circle>
+                  <circle cx="18" cy="12" r="4"></circle>
+                  <line x1="10" y1="12" x2="14" y2="12"></line>
+                  <line x1="2" y1="10" x2="4" y2="10"></line>
+                  <line x1="20" y1="10" x2="22" y2="10"></line>
+                </svg>
+              </span>
+              <span class="stat-ticker-pill">Atelier Stock</span>
+            </div>
+            <div class="stat-ticker-num-wrap">
+              <span class="stat-ticker-value" data-spring-target="2500" data-spring-suffix="+">0</span>
+            </div>
+            <h3 class="stat-ticker-title">Designer Frames &amp; Optics</h3>
+            <p class="stat-ticker-desc">Japanese titanium, Italian Mazzucchelli acetate, flexible rimless, and German bluecut lenses.</p>
+          </div>
+
+          <!-- Stat 4 -->
+          <div class="stat-ticker-card">
+            <div class="stat-ticker-top">
+              <span class="stat-ticker-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              </span>
+              <span class="stat-ticker-pill">Vidya Nagar</span>
+            </div>
+            <div class="stat-ticker-num-wrap">
+              <span class="stat-ticker-value" data-spring-target="15" data-spring-suffix="+">0</span>
+            </div>
+            <h3 class="stat-ticker-title">Years Community Trust</h3>
+            <p class="stat-ticker-desc">Direct clinical consultations with visiting ophthalmic surgeons and senior resident optometrists.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
     <!-- ============================================== -->
     <!-- 4. THE INTERACTIVE SCROLL-TO-OPEN SPECTACLES   -->
     <!-- ============================================== -->
@@ -292,7 +428,7 @@
         
         <div class="section-header text-center">
           <span class="section-tag">Interactive Optical Engineering</span>
-          <h2 class="section-title">The Anatomy of Precision Spectacles &bull; 3D Showcase</h2>
+          <h2 class="section-title blur-fade-text">The Anatomy of Precision Spectacles &bull; 3D Showcase</h2>
           <p class="section-subtitle">
             Explore our handcrafted luxury eyewear in continuous 3D rotation. Drag freely with mouse or touch, select perspectives, and test our prescription lens coatings in real time.
           </p>
@@ -380,7 +516,7 @@
         
         <div class="section-header text-center">
           <span class="section-tag">Clinical Optometry &amp; Care</span>
-          <h2 class="section-title">Personalized Eye Care for Gangavathi</h2>
+          <h2 class="section-title blur-fade-text">Personalized Eye Care for Gangavathi</h2>
           <p class="section-subtitle">
             Focused, unhurried consultations in an intimate clinic environment. We take the time to test your vision thoroughly and ensure your glasses fit comfortably.
           </p>
@@ -532,7 +668,7 @@
         
         <div class="section-header text-center">
           <span class="section-tag">Material &amp; Coating Science</span>
-          <h2 class="section-title">Optical Lens Options at Srinidhi</h2>
+          <h2 class="section-title blur-fade-text">Optical Lens Options at Srinidhi</h2>
           <p class="section-subtitle">
             We partner with certified optical laboratories to deliver lenses crafted for durability, featherlight comfort, and optical purity.
           </p>
@@ -609,7 +745,7 @@
         
         <div class="section-header text-center">
           <span class="section-tag">Handcrafted Eyewear Selection</span>
-          <h2 class="section-title">Curated Frames at Our Gangavathi Clinic</h2>
+          <h2 class="section-title blur-fade-text">Curated Frames at Our Gangavathi Clinic</h2>
           <p class="section-subtitle">
             From understated Japanese titanium minimalism to rich Italian handcrafted acetate. Discover frames designed to become an extension of your face.
           </p>
@@ -679,7 +815,7 @@
           
           <div class="booking-info">
             <span class="section-tag">Priority Clinic Slot</span>
-            <h2 class="section-title">Schedule Your Vision Consultation</h2>
+            <h2 class="section-title blur-fade-text">Schedule Your Vision Consultation</h2>
             <p class="booking-desc">
               Book your slot ahead of time to avoid waiting during peak evening hours. We will prepare your computerized test profile and reserve personalized styling assistance.
             </p>
@@ -831,7 +967,7 @@
         
         <div class="section-header text-center">
           <span class="section-tag">Visit the Clinic</span>
-          <h2 class="section-title">Located in Vidya Nagar, Gangavathi</h2>
+          <h2 class="section-title blur-fade-text">Located in Vidya Nagar, Gangavathi</h2>
           <p class="section-subtitle">
             Conveniently situated on Peerzad Street, easily accessible from CBS Circle and Koppal Road.
           </p>
@@ -1070,6 +1206,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <script src="config.js?v=4.0"></script>
-  <script src="script.js?v=8.0"></script>
+  <script src="script.js?v=9.0"></script>
 </body>
 </html>
