@@ -2116,9 +2116,9 @@ ul {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   transform-origin: 50% 50% -20px;
-  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.75s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, opacity, filter;
   filter: drop-shadow(0 0 20px rgba(94, 110, 255, 0.5));
 }
@@ -2179,7 +2179,7 @@ ul {
   background: linear-gradient(90deg, #2C3480, #5E6EFF, #8CA0FF);
   box-shadow: 0 0 10px rgba(94, 110, 255, 0.8);
   border-radius: 9999px;
-  animation: welcomeTimerAnim 5s linear forwards;
+  animation: welcomeTimerAnim 7.5s linear forwards;
 }
 
 @keyframes welcomeTimerAnim {
@@ -2192,6 +2192,12 @@ ul {
   justify-content: space-between;
   align-items: center;
   font-size: 11px;
+}
+.welcome-timer-tag {
+  color: #8CA0FF;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.05em;
 }
 .welcome-timer-count {
   color: #8CA0FF;
@@ -2249,14 +2255,15 @@ ul {
 .blur-fade-text .blur-word {
   display: inline-block;
   opacity: 0;
-  filter: blur(14px);
-  transform: translateY(12px) scale(0.96);
-  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 0.55s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: calc(var(--word-idx, 0) * 45ms);
+  filter: blur(18px);
+  transform: translateY(16px) scale(0.94);
+  /* Slow, graceful, cinematic blur fade-in */
+  transition: opacity 1.25s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 1.25s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--word-idx, 0) * 85ms);
   will-change: filter, opacity, transform;
-  margin-right: 0.26em;
+  margin-right: 0.28em;
 }
 
 .blur-fade-text.is-visible .blur-word {

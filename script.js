@@ -926,7 +926,7 @@
     let currentIdx = 0;
     let flipTimer = null;
 
-    // Word flip animation loop every 1.25s
+    // Word flip animation loop - slowed down to relaxed, readable pace (2.5s per sentence)
     flipTimer = setInterval(() => {
       flipWordEl.classList.remove('active');
       flipWordEl.classList.add('flipping-out');
@@ -937,38 +937,27 @@
         flipWordEl.classList.remove('flipping-out');
         flipWordEl.classList.add('flipping-in');
 
-        // Force reflow for silky smooth 3D flip-in
+        // Force reflow for silky smooth slow 3D flip-in
         void flipWordEl.offsetWidth;
 
         flipWordEl.classList.remove('flipping-in');
         flipWordEl.classList.add('active');
-      }, 350);
-    }, 1250);
-
-    // 5-second countdown timer text
-    let secondsLeft = 5;
-    const countInterval = setInterval(() => {
-      secondsLeft--;
-      if (countdownText) {
-        countdownText.textContent = secondsLeft > 0 ? `Entering Clinic in ${secondsLeft}s...` : 'Entering Clinic Atelier...';
-      }
-      if (secondsLeft <= 0) clearInterval(countInterval);
-    }, 1000);
+      }, 650); // 650ms slow transition
+    }, 2500); // 2.5s per sentence
 
     function dismissWelcomeScreen() {
       if (flipTimer) clearInterval(flipTimer);
-      if (countInterval) clearInterval(countInterval);
       welcomeScreen.classList.add('fade-out');
       setTimeout(() => {
         welcomeScreen.style.display = 'none';
         welcomeScreen.setAttribute('aria-hidden', 'true');
-      }, 750);
+      }, 850);
     }
 
-    // Auto-dismiss after exactly 5.0 seconds
+    // Auto-dismiss after 7.5 seconds allowing visitors to comfortably read changing sentences
     const autoDismissTimeout = setTimeout(() => {
       dismissWelcomeScreen();
-    }, 5000);
+    }, 7500);
 
     if (skipBtn) {
       skipBtn.addEventListener('click', (e) => {
