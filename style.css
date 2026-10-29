@@ -1864,3 +1864,134 @@ ul {
     padding: 20px 16px;
   }
 }
+
+
+/* ============================================================================
+   INFINITE HORIZONTAL SCROLLING TEXT ANIMATION (COBALT BLUE DEEP #2C3480)
+   Right-to-Left, Seamless 0-Gap Continuous Loop, Fully Responsive
+   ============================================================================ */
+.infinite-marquee-section {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: linear-gradient(90deg, #060919 0%, #0E1638 20%, #152254 50%, #0E1638 80%, #060919 100%);
+  border-top: 1px solid rgba(65, 80, 216, 0.35);
+  border-bottom: 1px solid rgba(65, 80, 216, 0.35);
+  padding: 16px 0;
+  box-shadow: 0 4px 20px rgba(5, 7, 19, 0.7), inset 0 0 20px rgba(44, 52, 128, 0.25);
+  user-select: none;
+  z-index: 5;
+}
+
+/* Subtle left and right edge fade masks for smooth seamless entrance/exit */
+.infinite-marquee-section::before,
+.infinite-marquee-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 90px;
+  z-index: 2;
+  pointer-events: none;
+}
+.infinite-marquee-section::before {
+  left: 0;
+  background: linear-gradient(to right, #060919 0%, rgba(6, 9, 25, 0) 100%);
+}
+.infinite-marquee-section::after {
+  right: 0;
+  background: linear-gradient(to left, #060919 0%, rgba(6, 9, 25, 0) 100%);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: marqueeScroll 26s linear infinite;
+}
+
+.infinite-marquee-section:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee-group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 36px;
+  padding-right: 36px; /* Exact gap balance for seamless join between groups */
+}
+
+.marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+.marquee-star {
+  color: var(--cobalt-bright);
+  font-size: 15px;
+  filter: drop-shadow(0 0 8px rgba(94, 110, 255, 0.8));
+  display: inline-block;
+}
+
+.marquee-title {
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.marquee-badge {
+  background: linear-gradient(135deg, rgba(44, 52, 128, 0.5), rgba(65, 80, 216, 0.35));
+  border: 1px solid rgba(140, 160, 255, 0.45);
+  color: var(--cobalt-light);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.04em;
+  box-shadow: 0 0 12px rgba(65, 80, 216, 0.3);
+  white-space: nowrap;
+}
+
+/* Seamless 0-gap infinite marquee animation (Right to Left) */
+@keyframes marqueeScroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .infinite-marquee-section {
+    padding: 12px 0;
+  }
+  .infinite-marquee-section::before,
+  .infinite-marquee-section::after {
+    width: 36px;
+  }
+  .marquee-track {
+    animation-duration: 20s;
+  }
+  .marquee-group {
+    gap: 20px;
+    padding-right: 20px;
+  }
+  .marquee-item {
+    gap: 8px;
+  }
+  .marquee-title {
+    font-size: 12px;
+  }
+  .marquee-badge {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+}

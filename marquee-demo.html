@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smooth Infinite Horizontal Scrolling Text Marquee — Srinidhi Eye Care</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* Cobalt Blue Deep (#2C3480) & Midnight Palette System */
+    :root {
+      --cobalt-deep: #2C3480;
+      --cobalt-mid: #35409E;
+      --cobalt-vibrant: #4150D8;
+      --cobalt-bright: #5E6EFF;
+      --cobalt-light: #8CA0FF;
+      --bg-black: #060919;
+      --bg-surface: #0E1638;
+      --text-white: #FFFFFF;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-black);
+      color: var(--text-white);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      overflow-x: hidden;
+    }
+
+    .demo-header {
+      text-align: center;
+      margin-bottom: 36px;
+      max-width: 680px;
+    }
+
+    .demo-header h1 {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 800;
+      color: #FFFFFF;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .demo-header p {
+      color: var(--cobalt-light);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* =========================================================================
+       INFINITE HORIZONTAL SCROLLING TEXT ANIMATION (SEAMLESS 0-GAP MARQUEE)
+       Right-to-Left, Continuous Hardware-Accelerated 60FPS CSS Animation
+       ========================================================================= */
+    .infinite-marquee-section {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      background: linear-gradient(90deg, #060919 0%, #0E1638 20%, #152254 50%, #0E1638 80%, #060919 100%);
+      border-top: 1px solid rgba(65, 80, 216, 0.35);
+      border-bottom: 1px solid rgba(65, 80, 216, 0.35);
+      padding: 16px 0;
+      box-shadow: 0 4px 20px rgba(5, 7, 19, 0.7), inset 0 0 20px rgba(44, 52, 128, 0.25);
+      user-select: none;
+      z-index: 5;
+    }
+
+    /* Subtle left and right edge fade masks for smooth seamless entrance/exit */
+    .infinite-marquee-section::before,
+    .infinite-marquee-section::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 90px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .infinite-marquee-section::before {
+      left: 0;
+      background: linear-gradient(to right, #060919 0%, rgba(6, 9, 25, 0) 100%);
+    }
+    .infinite-marquee-section::after {
+      right: 0;
+      background: linear-gradient(to left, #060919 0%, rgba(6, 9, 25, 0) 100%);
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      will-change: transform;
+      animation: marqueeScroll 26s linear infinite;
+    }
+
+    /* Pause smoothly on hover so user can easily read details */
+    .infinite-marquee-section:hover .marquee-track {
+      animation-play-state: paused;
+    }
+
+    .marquee-group {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      gap: 36px;
+      padding-right: 36px; /* Precise gap balance for seamless transition between groups */
+    }
+
+    .marquee-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      white-space: nowrap;
+    }
+
+    .marquee-star {
+      color: var(--cobalt-bright);
+      font-size: 15px;
+      filter: drop-shadow(0 0 8px rgba(94, 110, 255, 0.8));
+      display: inline-block;
+    }
+
+    .marquee-title {
+      color: #FFFFFF;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .marquee-badge {
+      background: linear-gradient(135deg, rgba(44, 52, 128, 0.5), rgba(65, 80, 216, 0.35));
+      border: 1px solid rgba(140, 160, 255, 0.45);
+      color: var(--cobalt-light);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      letter-spacing: 0.04em;
+      box-shadow: 0 0 12px rgba(65, 80, 216, 0.3);
+      white-space: nowrap;
+    }
+
+    /* Mathematical 0-gap infinite marquee loop from Right to Left */
+    @keyframes marqueeScroll {
+      0% {
+        transform: translate3d(0, 0, 0);
+      }
+      100% {
+        transform: translate3d(-50%, 0, 0);
+      }
+    }
+
+    /* Responsive adjustments for smartphones */
+    @media (max-width: 768px) {
+      .infinite-marquee-section {
+        padding: 12px 0;
+      }
+      .infinite-marquee-section::before,
+      .infinite-marquee-section::after {
+        width: 36px;
+      }
+      .marquee-track {
+        animation-duration: 20s;
+      }
+      .marquee-group {
+        gap: 20px;
+        padding-right: 20px;
+      }
+      .marquee-item {
+        gap: 8px;
+      }
+      .marquee-title {
+        font-size: 12px;
+      }
+      .marquee-badge {
+        font-size: 10px;
+        padding: 3px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="demo-header">
+    <h1>Smooth Infinite Horizontal Scrolling Text</h1>
+    <p>Cobalt Blue Deep (<code>#2C3480</code>) &bull; Seamless 0-Gap Infinite Loop &bull; Right to Left</p>
+  </div>
+
+  <!-- THE MARQUEE COMPONENT -->
+  <section class="infinite-marquee-section" aria-label="Srinidhi Clinic Highlights Ticker">
+    <div class="marquee-track">
+      <!-- Sequence 1 -->
+      <div class="marquee-group">
+        <div class="marquee-item">
+          <span class="marquee-star" aria-hidden="true">&#10022;</span>
+          <span class="marquee-title">Srinidhi Eye Care &amp; Opticals</span>
+          <span class="marquee-badge">Vidya Nagar, Gangavathi</span>
+        </div>
+        <div class="marquee-item">
+          <span class="marquee-star" aria-hidden="true">&#10022;</span>
+          <span class="marquee-title">Computerized Eye Testing</span>
+          <span class="marquee-badge">Advanced Digital Refraction</span>
+        </div>
+        <div class="marquee-item">
+          <span class="marquee-star" aria-hidden="true">&#10022;</span>
+          <span class="marquee-title">Bluecut Screen Defense</span>
+          <span class="marquee-badge">100% Digital Eye Strain Relief</span>
+        </div>
+        <div class="marquee-item">
+          <span class="marquee-star" aria-hidden="true">&#10022;</span>
+          <span class="marquee-title">German Precision Optics</span>
+          <span class="marquee-badge">Zeiss &bull; Essilor &bull; Crizal</span>
+        </div>
+        <div class="marquee-item">
+          <span class="marquee-star" aria-hidden="true">&#10022;</span>
+          <span class="marquee-title">Handcrafted Luxury Eyewear</span>
+          <span class="marquee-badge">Acetate, Titanium &amp; Rimless</span>
+        </div>
+        <div class="marquee-item">
+          <span class="marquee-star" aria-hidden="true">&#10022;</span>
+          <span class="marquee-title">Same-Day Precision Edging</span>
+          <span class="marquee-badge">Computerized In-Clinic Lab</span>
+        </div>
+        <div class="marquee-item">
+          <span class="marquee-star" aria-hidden="true">&#10022;</span>
+          <span class="marquee-title">Direct Consultations &amp; Walk-Ins</span>
+          <span class="marquee-badge">+91 87628 88866</span>
+        </div>
+      </div>
+
+      <!-- Sequence 2 (Identical duplicate for seamless 0-gap infinite loop) -->
+      <div class="marquee-group" aria-hidden="true">
+        <div class="marquee-item">
+          <span class="marquee-star" aria-hidden="true">&#10022;</span>
+          <span class="marquee-title">Srinidhi Eye Care &amp; Opticals</span>
+          <span class="marquee-badge">Vidya Nagar, Gangavathi</span>
+        </div>
+        <div class="marquee-item">
+          <span class="marquee-star" aria-hidden="true">&#10022;</span>
+          <span class="marquee-title">Computerized Eye Testing</span>
+          <span class="marquee-badge">Advanced Digital Refraction</span>
+        </div>
+        <div class="marquee-item">
+          <span class="marquee-star" aria-hidden="true">&#10022;</span>
+          <span class="marquee-title">Bluecut Screen Defense</span>
+          <span class="marquee-badge">100% Digital Eye Strain Relief</span>
+        </div>
+        <div class="marquee-item">
+          <span class="marquee-star" aria-hidden="true">&#10022;</span>
+          <span class="marquee-title">German Precision Optics</span>
+          <span class="marquee-badge">Zeiss &bull; Essilor &bull; Crizal</span>
+        </div>
+        <div class="marquee-item">
+          <span class="marquee-star" aria-hidden="true">&#10022;</span>
+          <span class="marquee-title">Handcrafted Luxury Eyewear</span>
+          <span class="marquee-badge">Acetate, Titanium &amp; Rimless</span>
+        </div>
+        <div class="marquee-item">
+          <span class="marquee-star" aria-hidden="true">&#10022;</span>
+          <span class="marquee-title">Same-Day Precision Edging</span>
+          <span class="marquee-badge">Computerized In-Clinic Lab</span>
+        </div>
+        <div class="marquee-item">
+          <span class="marquee-star" aria-hidden="true">&#10022;</span>
+          <span class="marquee-title">Direct Consultations &amp; Walk-Ins</span>
+          <span class="marquee-badge">+91 87628 88866</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
